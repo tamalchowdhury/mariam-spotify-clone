@@ -1,6 +1,6 @@
 console.log("Welcome to Spotify");
 let songIndex = 0;
-let audioElement = new Audio('song.mp3');
+let audioElement = new Audio('song1.mp3');
 let masterPlay = document.getElementById('masterPlay');
 let myProgressBar = document.getElementById('myProgressBar');
 let songItems = Array.from(document.getElementsByClassName('songItem'));
@@ -52,14 +52,20 @@ const makeAllPlays = ()=>{
 
 
 
-Array.from(document.getElementsByClassName('songItemPlay')).forEach(()=>{
-  Element.addEventListener('click', (e)=>{
-    console.log(e.target);
+// element is also needed (Element is not defined)
+Array.from(document.getElementsByClassName('songItemPlay')).forEach((element, index)=>{
+  element.addEventListener('click', (e)=>{
     makeAllPlays();
-    songIndex = parseInt(e.target,id);
+    songIndex = parseInt(e.target.id); // <-- comma, typo error
+    // Not returning any value here so using array index instead
+    
     e.target.classList.remove('fa-play-circle');
     e.target.classList.add('fa-pause-circle');
-    audioElement.src = 'Spotify/${songIndex+1}.mp3';
+    audioElement.src = `song${index+1}.mp3`; // Need backticks `` for variables to work
+    // Spotify/ does not work; the songs are in the root
+    // so renamed them accordingly
+    // I suggest put all songs under /songs or /audio folder
+    // All images under /img folder and update the urls
     audioElement.currentTime = 0;
     audioElement.play();
     masterPlay.classList.remove('fa-play-circle');
